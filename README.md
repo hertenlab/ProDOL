@@ -1,4 +1,4 @@
-# object oriented dol analysis software
+# Protein-tag Degree Of Labelling (ProDOL) analysis software
 
 ## classes
 
