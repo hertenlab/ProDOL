@@ -1,0 +1,138 @@
+%% load data
+if (exist('beadsImageSets', 'var') ~=1) || isempty(beadsImageSets)
+    loadPath = 'y:\DOL Calibration\Data\beads-control\intensity_screen2\analysis\beadsImageSets.mat';
+    load(loadPath);
+end
+
+%% show image overlays and points
+
+mySet = beadsImageSets(10);
+myImg = mySet.childImages(5);
+
+ROI = [72 136; 118 182]; % starts in top left corner
+% ROI = [0 512; 0 512]; % starts in top left corner
+
+figure(1)
+beads_showImage(myImg, [1 0 0 0 0], [])
+xlim(ROI(1,:))
+ylim(ROI(2,:))
+
+figure(2)
+beads_showImage(myImg, [0 0 1 0 0], [])
+xlim(ROI(1,:))
+ylim(ROI(2,:))
+
+figure(3)
+beads_showImage(myImg, [1 0 1 0 0], {'u-track red', 'u-track blue'})
+xlim(ROI(1,:))
+ylim(ROI(2,:))
+
+figure(4)
+beads_showImage(myImg, [0 0 0 0 0], {'u-track red registered', 'u-track blue registered'})
+xlim(ROI(1,:))
+ylim(ROI(2,:))
+
+figure(5)
+beads_showImage(myImg, [0 0 0 0 0], {'u-track red', 'u-track blue rotated'})
+xlim(ROI(1,:))
+ylim(ROI(2,:))
+
+%% nearest neighbor distance histogram & boxplot
+
+blueSet = myImg.childPointSets(1);
+redSet = myImg.childPointSets(3);
+
+dist = pdist2(blueSet.getAllPositions('registered'), redSet.getAllPositions('registered'));
+nnd = min(dist, [], 1);
+
+distRot = pdist2(blueSet.getAllPositions('rotated'), redSet.getAllPositions('registered'));
+nndRot = min(distRot, [], 1);
+
+figure(6)
+cla
+histogram(nnd, 'BinWidth', 0.5, 'Normalization', 'probability')
+hold on
+histogram(nndRot, 'BinWidth', .5, 'Normalization', 'probability')
+legend('original', 'rotated')
+xlim([-.25 20.25])
+xlabel('nearest neighbor distance / px')
+ylabel('probability')
+
+figure(7)
+cla
+boxplot([nnd; nndRot]')
+xticklabels({'original', 'rotated'})
+ylabel('nearest neighbor distance / px')
+
+%% plot significant distance threshold
+
+% calculate mean DOL all input imageset
+% determine significant distance threshold
+allImages = [mySet.childImages];
+firstDolans = [allImages(1).results];
+thresholds = unique([firstDolans.parameter]);
+[dolValues, randomValues, multiValues] = deal(...
+    zeros(length(allImages),length(thresholds)));
+
+for i = 1:length(allImages)
+    mci = allImages(i);
+    allDolans = mci.results;
+    dolDolan = allDolans.dolanByVars('basePointSet', mci.pointSetByName('u-track red'), ...
+        'targetPointSet', mci.pointSetByName('u-track blue'),...
+        'varName', 'DOL');
+    dolValues(i,:) = [dolDolan.value];
+    randomDolan = allDolans.dolanByVars('basePointSet', mci.pointSetByName('u-track red'), ...
+        'targetPointSet', mci.pointSetByName('u-track blue'),...
+        'varName', 'DOL-Random');
+    randomValues(i,:) = [randomDolan.value];
+    multiDolan = allDolans.dolanByVars('basePointSet', mci.pointSetByName('u-track red'), ...
+        'targetPointSet', mci.pointSetByName('u-track blue'),...
+        'varName', 'multi-assignments');
+    numPoints = length(mci.pointSetByName('u-track red').points);
+    multiValues(i,:) = [multiDolan.value] / numPoints;
+end
+
+meanCol = nanmean(dolValues,1);
+meanColRandom = nanmean(randomValues,1);
+meanMulti = nanmean(multiValues,1);
+
+figure(8)
+yyaxis('left')
+cla
+plot(thresholds, meanCol/max(meanCol))
+hold on
+plot(thresholds, meanColRandom/max(meanColRandom))
+plot(thresholds, meanCol/max(meanCol)-meanColRandom/max(meanColRandom))
+legend('original', 'rotated', 'specific');
+ylabel('normalized colocalisation')
+yyaxis('right')
+cla
+plot(thresholds, meanMulti/numPoints)
+ylim([0 10^-4])
+ylabel('multi-assignments per point')
+
+%% barplot dol & dol random
+bases = {'u-track blue', 'u-track green', 'u-track blue'};
+targets = {'u-track green', 'u-track red', 'u-track red'};
+for i = 1:3
+    [coloc(i), colocErr(i), ~, ~, Ieff] = mySet.resultByName('mean DOL', bases{i}, targets{i});
+    [colocRandom(i), colocRandomErr(i)] = mySet.resultByName('mean DOL Random', bases{i}, targets{i});
+end
+
+figure(9)
+cla
+a = [coloc; colocRandom]';
+b = [colocRandom; colocRandomErr]';
+ctrs = 1:3;
+hBar = bar(ctrs, a, 0.75);
+hold on
+offset = hBar(1).XOffset;
+for k1 = 1:size(a,2)
+    ctr(:,k1) = bsxfun(@plus, hBar(1).XData, [hBar(k1).XOffset]');
+    ydt(:,k1) = hBar(k1).YData;
+end
+hold on
+errorbar(ctr, ydt, b, '.r')
+hold off
+xticklabels({'blue to green' 'green to red' 'blue to red'})
+ylabel('degree of colocalisation')

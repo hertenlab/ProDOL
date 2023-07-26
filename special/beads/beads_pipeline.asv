@@ -1,0 +1,51 @@
+if (exist('beadsImageSets', 'var') ~=1) || isempty(beadsImageSets)
+    
+    % Import data
+    % 
+    beadsImageSets = [];
+    disp('Creating imagesets');
+    beadsImageSets = beads_createImageSets(beadsImageSets);
+    disp('Importing u-track data')
+    beadsImageSets = beads_importUtrack(beadsImageSets);
+
+    % OR
+    % 
+%     loadPath = 'y:\DOL Calibration\Data\beads-control\intensity_screen2\analysis\beadsImageSets.mat';
+%     load(loadPath);
+
+end
+
+%% perform registration
+
+% beadsImageSets.fullTransformation('u-track blue', 'u-track green');
+% beadsImageSets.fullTransformation('u-track blue', 'u-track red');
+
+%% point filtering
+% disp('Filtering points by sigma')
+% setNames = {'u-track red' 'u-track green'  'u-track blue'};
+% filterNames = strcat(setNames, ' fltr sigma');
+% beadsImageSets.filterPointsByValue(setNames, filterNames, 'sigma', [0.7 2.7], 'replace');
+
+%% calculate DOL between point sets
+
+% beadsImageSets.colocalisation('u-track blue', 'u-track green');
+% beadsImageSets.colocalisation('u-track green', 'u-track red');
+beadsImageSets.calculateMeanColocalisation('u-track blue', 'u-track red');
+
+%% look at the results
+
+allResults = [beadsImageSets.results];
+dolDolans = allResults.dolanByVars('varName', 'mean DOL',...
+    'basePointSet', 'u-track blue',...
+    'targetPointSet', 'u-track green');
+
+% plot dol vs. effective laser intensity
+for i = 1:length(dolDolans)
+    Ieff(i) = dolDolans(i).includedImageSets.descriptors.effectiveIntensity;
+    dol(i) = dolDolans(i).value;
+    dol_std(i) = dolDolans(i).uncertainty;
+end
+
+errorbar(Ieff, dol, dol_std);
+xlabel('effective intensity')
+ylabel('DOL')
