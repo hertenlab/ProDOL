@@ -13,7 +13,7 @@
 %   use additional input 'plot' to create figure showing specific
 %   colocalisation (Coloc - ColocRandom) versus spatial thresholds
 
-function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds,saveDir, varargin)
+function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds,saveDir, targetName, varargin)
 
     if ~isequal(size(Coloc), size(ColocRandom)) || ...
             ~isequal(size(Coloc,2),length(thresholds))
@@ -43,10 +43,12 @@ function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds
         text(Col.XData(index), 0.05*ax.YLim(2),num2str(Col.XData(index)),...
             'Color',[0 0.5 0],'BackgroundColor', 'white','HorizontalAlignment', 'center',...
             'FontSize',10);
-        if isfile(strcat(saveDir,'ColocThreshold_green.fig'))
-             savefig(strcat(saveDir,'ColocThreshold_red.fig'));
+        if contains(targetName,"Halo")
+             savefig(strcat(saveDir,'ColocThreshold_Halo.fig'));
+        elseif contains(targetName,"SNAP")
+            savefig(strcat(saveDir,'ColocThreshold_SNAP.fig'));
         else
-           savefig(strcat(saveDir,'ColocThreshold_green.fig'));
+             savefig(strcat(saveDir,'ColocThreshold_other.fig'));
         end
 
     end

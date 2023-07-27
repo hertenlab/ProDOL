@@ -65,13 +65,13 @@ for m=1:length(subFolders)
     switch AnalysisOption
         case "Both Channels"
             channels = {'eGFP','Halo','SNAP','mask'};
-            isProperties = struct('exp','Experiment','dye_green',dye_green,'dye_red',dye_red);
+            isProperties = struct('exp','Experiment','dye_Halo',dye_Halo,'dye_SNAP',dye_SNAP);
         case "HaloTag"
             channels = {'eGFP','Halo','mask'};
-            isProperties = struct('exp','Experiment','dye_green',dye_green);
+            isProperties = struct('exp','Experiment','dye_Halo',dye_Halo);
         case "SNAPtag"
             channels = {'eGFP','SNAP','mask'};
-            isProperties = struct('exp','Experiment','dye_red',dye_red);
+            isProperties = struct('exp','Experiment','dye_SNAP',dye_SNAP);
     end
 
     mkdir(saveDir);
@@ -158,11 +158,11 @@ for m=1:length(subFolders)
 
     switch AnalysisOption
         case "Both Channels"
-            xticklabels({'',imSet.descriptors.dye_green,imSet.descriptors.dye_red,''})
+            xticklabels({'',imSet.descriptors.dye_Halo,imSet.descriptors.dye_SNAP,''})
         case "HaloTag"
-            xticklabels({'',imSet.descriptors.dye_green,''})
+            xticklabels({'',imSet.descriptors.dye_Halo,''})
         case "SNAPtag"
-            xticklabels({'',imSet.descriptors.dye_red,''})
+            xticklabels({'',imSet.descriptors.dye_SNAP,''})
     end
     savefig(strcat(saveDir,'DOL.fig'));
 
@@ -182,6 +182,6 @@ for m=1:length(subFolders)
     title('Localization amplitude before/after sigma filtering')
     savefig(strcat(saveDir,'LocAmplitude.fig'));
 
-    clearvars -except pixelsize fittype threshold dolP rootfolder subFolders expressionCh expressionTS dye_green dye_red AnalysisOption
+    clearvars -except pixelsize fittype threshold dolP rootfolder subFolders expressionCh expressionTS dye_Halo dye_SNAP AnalysisOption
 end
 
