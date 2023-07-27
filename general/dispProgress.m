@@ -32,17 +32,14 @@ function dispProgress(varargin)
         case 2
             totalMax = varargin{2};
             current = varargin{1};
-            progress = current / totalMax;
             displayProgress(current, totalMax)
         case 4
             totalMax = varargin{2} * varargin{4};
             current = (varargin{1} - 1) * varargin{4} + varargin{3};
-            progress = current / totalMax;
             displayProgress(current, totalMax)            
         case 6
             totalMax = varargin{2} * varargin{4} * varargin{6};
             current = (varargin{1} - 1) * varargin{4} + (varargin{3} - 1) * varargin{6} + varargin{5};
-            progress = current / totalMax;
             displayProgress(current, totalMax)      
     end    
     

@@ -27,10 +27,14 @@ Partner = TotalDistance < DistanceThreshold; %Particle pairs with a distance bel
 
 ValidPair=[];
 
-for pair=1:size(Ch1) %Loop all partners
-    if nnz(Partner(:,Ch2(pair)))==1 && nnz(Partner(Ch1(pair),:))==1 %Store only particle pairs with ONE unique partner
-        ValidPair = [ValidPair;Ch1(pair) Ch2(pair)];        
+if ~isempty(Ch1) & ~isempty(Ch2)
+    for pair=1:size(Ch1) %Loop all partners
+        if nnz(Partner(:,Ch2(pair)))==1 && nnz(Partner(Ch1(pair),:))==1 %Store only particle pairs with ONE unique partner
+            ValidPair = [ValidPair;Ch1(pair) Ch2(pair)];        
+        end
     end
+else
+    ValidPair = [];
 end
     
 % Return Coordinates of valid particle pairs

@@ -1,7 +1,7 @@
 % If window cannot be closed, focus by clicking on it and then type
 % delete(gcf) in console
 
-function blueCherryPicker(imgSet)
+function imageSetInspector(imgSet)
 
     figH = figure('Position', [100 100 494 171],...
         'Name', 'blueCherryPicker',...
@@ -14,7 +14,7 @@ function blueCherryPicker(imgSet)
         'Callback', @showCurrentImage,...
         'Position', [28 132 440 22]);
     
-    % random checbox
+    % random checkbox
     handles.randomCheck = uicontrol('Parent', figH,...
         'Style', 'checkbox',...
         'String', 'random order',...
@@ -226,3 +226,4 @@ function closeWindow(hObject, eventdata)
     delete(hObject);
 
 end
+

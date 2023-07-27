@@ -17,10 +17,10 @@ function datasets = importTSeff(ilPath,root_dir)
 datasets = [];
 
 % List all files in data directory
-allFiles = getAllFiles(root_dir);
+allFiles = getAllFiles(root_dir,'csv');
 
 % temp store for channel IDs from file paths
-channelID = cell(length(fileID));
+channelID = cell(length(fileID),1);
 
 % Create one movie object for each entry in image list file
 for i = 1:length(fileID)
@@ -64,7 +64,7 @@ for i =1:length(allFiles)
                 currentmovie = findobj(datasets,'incubation_time',inct,'CellType',ct,'concentration',conc,'replicate',rep);
     
                 % create analysis object
-                currentanalysis = analysis(id(idx),frame(idx),x(idx),y(idx),sigma(idx),intensity(idx),offset(idx),bkgstd(idx),uncertainty(idx),fittype,threshold,ch,inct,ct,conc,rep);
+                currentanalysis = analysis(id(idx),frame(idx),x(idx),y(idx),sigma(idx),intensity(idx),offset(idx),bkgstd(idx),uncertainty(idx),fittype,threshold,ch);%,inct,ct,conc,rep);
                 currentmovie.analysis = [currentmovie.analysis currentanalysis];
             end
         end

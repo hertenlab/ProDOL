@@ -15,8 +15,8 @@ classdef analysis < movie
     end
     methods
         function movobj = analysis(val1,val2,val3,val4,val5,val6,val7,val8,val9,val10,val11,val12,val13,val14,val15,val16)
-            super_args =  {val13, val14, val15, val16};
-            movobj@movie(super_args{:});
+            %super_args =  {val13, val14, val15, val16};
+            %movobj@movie(super_args{:});
 
             movobj.id = val1;
             movobj.frame = val2;

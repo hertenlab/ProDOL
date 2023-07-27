@@ -1,29 +1,45 @@
 classdef movie < dynamicprops
-    properties
+    properties 
+        %descriptors = struct(); 
+        descriptors
         incubation_time
         CellType
         concentration
         replicate
         analysis
+        fpath
     end
     methods
-        function obj = movie(val1,val2,val3,val4)
-            obj.incubation_time = val1;
-            if strcmp(val2,'gSEP')
-                obj.CellType = val2;
-            elseif strcmp(val2,'LynG')
-                obj.CellType = val2;
-            elseif strcmp(val2,'Sims')
-                obj.CellType = val2;
-            elseif strcmp(val2, 'Beads')
-                obj.CellType = val2;
-            else
-                error('Cell type must be "gSEP", "LynG", "Sims" or "Beads"')
+        function obj = movie(varargin)
+            obj.fpath = '';
+            for i=1:nargin()
+                if strcmp(varargin(i),'fpath') && nargin>=i+1
+                    obj.fpath = varargin(i+1);
+                end
             end
-            obj.concentration = val3;
-            obj.replicate = val4;
-            obj.analysis;
-
+            switch nargin()
+                case 4 % assume old input format
+                    obj.descriptors = struct('inctime',varargin{1},'cellType',varargin{2},'conc',varargin{3},'rep',varargin{4});
+                case 1 % assume descriptor struct as input
+                    obj.descriptors = varargin{1};
+                    obj.fpath = '';
+            end
+            
+            % add old properties to maintain backwards compatibility
+            if isfield(obj.descriptors,'inctime')
+                obj.incubation_time = obj.descriptors.inctime;
+            end
+            if isfield(obj.descriptors,'cellType')
+                obj.CellType = obj.descriptors.cellType;
+            end
+            if isfield(obj.descriptors,'conc')
+                obj.concentration = obj.descriptors.conc;
+            end
+            if isfield(obj.descriptors,'rep')
+                obj.replicate = obj.descriptors.rep;
+            end
+           
+            obj.analysis;           
         end
         
         function analysisSelected = returnanalysis(obj, varargin)
@@ -44,25 +60,39 @@ classdef movie < dynamicprops
         end
         
         function matches = moviesWithProperty(obj,varargin)
-            idx = true(size(obj));
-            for h=1:length(obj)
-                for i=1:2:length(varargin)
-                    if isprop(obj(h),varargin{i})
-                        switch class(varargin{i+1})
-                            case 'char'
-                                if ~strcmp(obj(h).(varargin{i}),varargin{i+1})
-                                    idx(h) = false;
-                                end
-                            case 'double'
-                                if ~(obj(h).(varargin{i})== varargin{i+1})
-                                    idx(h) = false;
-                                end
+            idx = false(size(obj));
+            if numel(varargin)==1
+                tmp = cellfun(@(x) isequal(x,varargin{1}),{obj(:).descriptors}');
+                if sum(tmp)==1
+                    idx = find(tmp,true);
+                end                
+            elseif numel(varargin)>1 & rem(size(varargin,2),2)==0
+                for h=1:length(obj)
+                    chck = 0;
+                    for i=1:2:length(varargin)
+                        if isprop(obj(h),varargin{i})
+                            switch class(varargin{i+1})
+                                case 'char'
+                                    if strcmp(obj(h).(varargin{i}),varargin{i+1})
+                                        chck = chck+1;
+                                    end
+                                case 'double'
+                                    if obj(h).(varargin{i})== varargin{i+1}
+                                        chck = chck+1;
+                                    end
+                            end
+                            
+                        else
+                            sprintf('%s is no valid property of movie object.',varargin{i})
+                            break
                         end
-                    else
-                        sprintf('%s is no valid property of movie object.',varargin{i})
-                        break
+                    end
+                    if chck==size(varargin,2)/2
+                        idx(h) = true;
                     end
                 end
+            else
+                error('invalid input')
             end
             matches = obj(idx);
         end
@@ -86,7 +116,7 @@ classdef movie < dynamicprops
             for i=1:length(ds(1).analysis)
                 points_raw = [ds.analysis(i).x, ds.analysis(i).y]./pixelsize;
                 raw = length(points_raw);
-                
+
                 % confirm that points were found before filtering
                 if ~isempty(points_raw)
                     % create mask filter vector
@@ -106,7 +136,7 @@ classdef movie < dynamicprops
                     ds.analysis(i).uncertainty = ds.analysis(i).uncertainty(points_idx_filtered)./pixelsize;  % convert nm from thunderSTORM into pixels
                 else
                     fprintf('Analysis object does not contain points. Skipping!\n')
-                end
+                end            
             end
             % return updated movie object
             ds_filtered = ds;

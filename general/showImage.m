@@ -51,6 +51,7 @@ function figH = showImage(mci, showChannels, pointSetNames, figH)
             switch size(imageArray,3)
                 case 1
                     imshow(imageArray,[prctile(imageArray(:),5), prctile(imageArray(:),99)]);
+                    %imshow(imageArray,[300, 2500]);
                 case 2
                     rgbArray = imageArray / 2^16;
                     m = imadjust(rgbArray(:,:,1), stretchlim(rgbArray(:,:,1),[0.15 .995]),[]);
@@ -80,7 +81,7 @@ function figH = showImage(mci, showChannels, pointSetNames, figH)
             hold on
             if ~isempty(points{i})
                 set(gca, 'ColorOrderIndex', i);
-                scatter(points{i}(:,1), points{i}(:,2), 200, markers(i), 'LineWidth', 1.5, 'MarkerEdgeAlpha', 0.7);
+                scatter(points{i}(:,1), points{i}(:,2), 50, markers(i), 'LineWidth', 1.5, 'MarkerEdgeAlpha', 0.7);
             end
 %             scatter(points{i}(:,1), points{i}(:,2), 50, 'o', 'filled', 'MarkerFaceAlpha', 0.6, 'MarkerEdgeColor', [.1 .1 .1]);
         end
@@ -108,7 +109,6 @@ function imageArray = createImage(mci, colorChannels)
     availableChannels = {mci.channels.name};
     info = imfinfo(mci.channels(1).path);
     imageArray = zeros(info.Width,info.Height,length(colorChannels));
-    
     for i = 1:length(colorChannels)
         imageArray(:,:,i) = double(imread(mci.channels(strcmp(availableChannels, colorChannels{i})).path));
     end

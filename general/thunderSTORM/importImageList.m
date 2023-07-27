@@ -1,4 +1,4 @@
-function [fileID,filePath] = importImageList(filename, startRow, endRow)
+function [fileID,filePath] = importImageList(filename, varargin)
 %IMPORTFILE Import numeric data from a text file as column vectors.
 %   [FILEID,FILEPATH] = IMPORTFILE(FILENAME) Reads data from text file
 %   FILENAME for the default selection.
@@ -15,9 +15,15 @@ function [fileID,filePath] = importImageList(filename, startRow, endRow)
 
 %% Initialize variables.
 delimiter = '\t';
-if nargin<=2
+if nargin==1
     startRow = 1;
     endRow = inf;
+elseif nargin==2
+    startRow = varargin{1};
+    endRow = inf;
+elseif nargin==3
+    startRow = varargin{1};
+    endRow = varargin{2};
 end
 
 %% Format string for each line of text:
@@ -56,7 +62,7 @@ fclose(fileID);
 
 %% Allocate imported array to column variable names
 fileID = dataArray{:, 1};
-filePath = dataArray{:, 1};
+filePath = dataArray{:, 2};
 % for old thunderSTORM results files (with ID as first column)
 %filePath = dataArray{:, 2}; 
 

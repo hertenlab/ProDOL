@@ -20,13 +20,15 @@ elseif strfind(name, 'fullImage')
     celltype = 'Sims';
 elseif strfind(name, 'beads')
     celltype = 'Beads';
+elseif strfind(name,'wt_')
+    celltype = 'wt';
 else
     celltype = '';
 end
 
 switch celltype
     % cell screen experiments
-    case {'gSEP', 'LynG'}
+    case {'gSEP', 'LynG','wt'}
         % incubation time
         if strfind(filepath, 'overnight')
             time = 16;
@@ -42,18 +44,30 @@ switch celltype
             time = [];
         end
         % concentration and replicate
-        underscoreIndex = strfind(name, '_');
-        nMIndex = strfind(name, 'nM');
-        if isempty(nMIndex)
-            concentration = [];
-            replicate = [];
+        usidx = strfind(name, '_');
+      
+        concentration = [];
+        replicate = [];
+        concIndex = [];
+        
+        if contains(name,'unstained')
+            concentration = 0;
+            replicate = str2num(name(usidx(end-1)+1:usidx(end)-1));
         else
-            Cstart = max(underscoreIndex(underscoreIndex<nMIndex)) + 1;
-            Cend = nMIndex - 1;
+            if contains(name, 'nM_')
+                concIndex = strfind(name,'nM_');
+            elseif contains(name,'uM_')
+                concIndex = strfind(name, 'uM_');
+            end
+        end
+        
+        if ~isempty(concIndex)
+            Cstart = max(usidx(usidx<concIndex)) + 1;
+            Cend = concIndex - 1;
             concentration = str2double(strrep(name(Cstart:Cend), ',', '.'));
             
             % replicate number for gSEP/LynG data
-            replicate = str2double(name(nMIndex+3:nMIndex+4));
+            replicate = str2double(name(concIndex+3:concIndex+4));
         end
     
     % Simulations: property 'simulated density' in 'concentration' output
@@ -82,12 +96,12 @@ switch celltype
     % Beads: property 'nd filter' in 'time' output and 'laser intensity' in
     % 'concentration output variable
     case 'Beads'
-        underscoreIndex = strfind(name, '_');
-        nd = str2num(name(underscoreIndex(1)+3:underscoreIndex(2)-1));
-        laserStartIdx = underscoreIndex(2) + 1;
-        laserEndIdx = underscoreIndex(3) - 1;
+        usidx = strfind(name, '_');
+        nd = str2num(name(usidx(1)+3:usidx(2)-1));
+        laserStartIdx = usidx(2) + 1;
+        laserEndIdx = usidx(3) - 1;
         laserIntensity = str2num(strrep(name(laserStartIdx:laserEndIdx), '-', '.'));
-        replicate = str2num(name(underscoreIndex(3)+1:underscoreIndex(3)+2));
+        replicate = str2num(name(usidx(3)+1:usidx(3)+2));
         time = nd;
         concentration = laserIntensity;
     otherwise
