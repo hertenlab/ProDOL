@@ -1,0 +1,13 @@
+ 	image file
+1	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell01_eGFP.tif
+2	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell01_Halo.tif
+3	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell01_SNAP.tif
+4	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell02_eGFP.tif
+5	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell02_Halo.tif
+6	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell02_SNAP.tif
+7	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell03_eGFP.tif
+8	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell03_Halo.tif
+9	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell03_SNAP.tif
+10	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell04_eGFP.tif
+11	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell04_Halo.tif
+12	E:\ProDOL-App\ExampleData\LT3A2_1H_1nM_SNAP-TMR_10nM_Halo-SiR\3Channels_Mask\cell04_SNAP.tif
