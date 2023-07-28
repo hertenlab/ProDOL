@@ -1,6 +1,7 @@
 # Protein-tag Degree Of Labelling (ProDOL) analysis software
 
 **Author:** F Hild, J Euchner, S Haenselmann, K Yserentant, SA Tashev
+
 **Organization:** Herten Lab for Single Molecule Spectroscopy, University of Birmingham, UK  
 **License:** GPLv3  
 **Version:** 2023
@@ -28,6 +29,7 @@ Although the package was tested with specific versions, other relatively new ver
 The recommended way to use this software is cloning / downloading the git repository.
 
 ## Getting started
+### ImageJ script
 Open ImageJ and select `Plugins` -> `Marcos` -> `Run...`. Then navigate to the downloaded git repository and select `processAverageIJwiththunderSTORM.ijm`. 
 Now input the relevant information into the GUI.
 - `Reference Identifier` defines the unique string within the imagename to identifty the reference channel. E.g. `eGFP`
@@ -39,6 +41,8 @@ By clicking [OK], you then have to navigate to the root folder of the data to be
 
 After completing each dataset folder should contain two new folders - `3Channels_Mask` and `ThunderSTORM_results`.
 
+
+### MATLAB routine
 Now open the `ProDOL_pipeline_thunderSTORM.m` script in MATLAB. Run the script and input the relevant information into the GUI.
 - Define parameters such as `pixelwidth`, and Tag-dye names
 - Select which Tags to be analysed from the drop-down menu: `HaloTag`, `SNAPtag`, or `Both Channels`
