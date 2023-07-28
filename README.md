@@ -16,7 +16,7 @@ please cite this publication if you found this software useful.
 Although the package was tested with specific versions, other relatively new versions will likely work as well. If you have issues please get in touch. If you have issues with older ImageJ/MATLAB versions please consider updating.
 
 - **MATLAB:**
-	Tested with python 2021b
+	Tested with MATLAB 2021b
 - **ImageJ:**
 	Tested with ImageJ 1.54f
 - **ImageJ/ThunderSTORM:**
