@@ -89,10 +89,10 @@ The MATLAB routine generates one output folder with following files:
 ### pointset class
 #### properties
 
-+ `name` name to indicate source of points (e.g. 'u-track green', 'thunderStorm red', 'ground truth')
++ `name` name to indicate source of points (e.g. 'ts_multi eGFP fltr sigma', 'ts_multi SNAP fltr sigma', 'ground truth')
 + `(multichannelimage) parentImage` Image which this pointset belongs to
-+ `sourceFile` original file where this pointset comes from (e.g. u-track point_sources/channel_x.mat or thunderStorm csv-file)
-+ `pointDetectionParameters` information about the origin of this point set (e.g. u-track or thunderStorm point detection parameters)
++ `sourceFile` original file where this pointset comes from (e.g.  thunderStorm csv-file)
++ `pointDetectionParameters` information about the origin of this point set (e.g. thunderStorm point detection parameters)
 + `points` points belonging to this set (parameter order in `pointsColumns`)
 + `pointsColumns` parameters of `points` array ('x', 'y', 'x rotated', 'y rotated', 'x registered', 'y registered', 'amplitude', 'sigma', 'offset')
 + `pointDensity` density of points (in um^-2^ ) within `parentImage.segmentedArea ` derived from mask channel of parent multicolorimage
@@ -166,13 +166,13 @@ dataSetInspector(imgset)
 Select a point set as a reference and align other pointsets to that reference. A full registration from all pointsets with name `targetName` to `baseName` can be performed by calling
 
 ```
-imgset.fullTransformation('u-track blue', 'u-track green');
+imSet.fullTransformation('ts_multi eGFP fltr sigma', 'ts_multi Halo fltr sigma');
 ```
 
 This calls the following methods consecutively:
 
 ```
-imgset.calculateTransformation('u-track blue', 'u-track green');
+imSet.calculateTransformation('ts_multi eGFP fltr sigma', 'ts_multi Halo fltr sigma');
 ```
 
 - calculate transformation matrix for individual images
@@ -182,17 +182,17 @@ imgset.calculateTransformation('u-track blue', 'u-track green');
   - if calculated transformation uses large changes (translation > 20px, rotation > 5°, scaling > 1%) a warning is displayed
 
 ```
-meanTgreen = imgset.calculateMeanTransformation('u-track blue', 'u-track green');
+meanTgreen = imSet.calculateMeanTransformation('ts_multi eGFP fltr sigma', 'ts_multi Halo fltr sigma');
 ```
 
 - calculate mean transformation (on imageset or imageset vector)
 
 ```
-imgset.applyTransformation('u-track blue', 'u-track green');
+imSet.applyTransformation('ts_multi eGFP fltr sigma', 'ts_multi Halo fltr sigma');
 ```
 
 - perform registration for all points
-- pointsets with name 'u-track blue' are set as reference. Their transformation matrix is set to unity and registeres positions of points are copied from original positions.
+- pointsets with name `ts_multi eGFP fltr sigma` are set as reference. Their transformation matrix is set to unity and registeres positions of points are copied from original positions.
 
 ## Point filtering
 
@@ -227,7 +227,7 @@ will accept points with `amplitude > 1000` or `amplitude < 500` and append the n
 To perform filtering on all pointsets (with a certain name) on all multichannelimage of an imageset you can call the imageset method filterPointsByValue.
 
 ```
-img.set.filterPointsByValue(targetName, newName, pointParameter, filterValues, appendOrReplace)
+imSet.filterPointsByValue(targetName, newName, pointParameter, filterValues, appendOrReplace)
 ```
 
 `targetName` is the name of the pointset to be filtered.
@@ -237,7 +237,7 @@ img.set.filterPointsByValue(targetName, newName, pointParameter, filterValues, a
 The imageset method filterPointsByPercentile will determine the `filterValues` for `pointset.filterPoints()` by calculating the percentile of the point parameter for all points of a reference set. This could be an unstained cell.
 
 ```
-imgset.filterPointsByPercentile(baseSet, targetName, newName, pointParameter, percentile, appendOrReplace)
+imSet.filterPointsByPercentile(baseSet, targetName, newName, pointParameter, percentile, appendOrReplace)
 ```
 
 will determine the `percentile` of `pointParameter` of all points in `baseSet` and filter all points in `imgset` to be higher than this threshold.
@@ -247,50 +247,52 @@ will determine the `percentile` of `pointParameter` of all points in `baseSet` a
 * call method colocalisation on imageset or multicolorimage with base and target pointset name. DOL is always calculated "in both ways" i.e. with respect to number of points of base and target pointset and added as result to both pointsets
 
 ```
-imgset.colocalisation('u-track blue', 'u-track red');
+imSet.colocalisation('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma', saveDir)
 ```
 
 That consecutively performs the following steps:
 
 ```
-imgset.calculateColocOverThresholds('u-track blue', 'u-track red');
+imSet.calculateColocOverThresholds('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma');
 ```
 
 * Calculate the degree of colocalisation between two pointsets over a distance threshold from 0.1 to 4 pixels with a step size of 0.1 px. Additionally multiple assigned points are stored and both (DOL and multi-assignments) are performed for one pointset rotated (Random). Results are stored as dolan objects with the respective multichannelimage. (varNames: 'DOL over threshold',  'multi-assignments over threshold', 'DOL-Random over threshold', 'multi-assignments-Random over threshold')
 
 ```
-obj.findSignificantThreshold('u-track blue', 'u-track red');
+obj.findSignificantThreshold('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma');
 ```
 
 * Find significant colocalisation distance threshold by comparing the degree of colocalisation with random control in dependence of the distance threshold. The significant threshold is stored with the imageset. Only pointsets with succesful registration are included assuming these are samples with a significant number of actually colocalizing points.
 
 ```
-obj.setSignificantDOL('u-track blue', 'u-track red');
+obj.setSignificantDOL('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma');
 ```
 
 * Use the significant distance threshold and determine the DOL for every multichannelimage. Results are stored as dolan objects with the multichannelimage (varNames:  'DOL',  'multi-assignments', 'DOL-Random', 'multi-assignments-Random')
 
 ```
-obj.calculateMeanColocalisation('u-track blue', 'u-track red');
+obj.calculateMeanColocalisation('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma');
 ```
 
 * Calculate average DOL (and other quantities) over all images of an imageset at the significant distance threshold. Results are stored with the imageset as dolan objects (varNames: 'mean DOL', 'mean DOL Random', 'mean multi-assignments', 'mean multi-assignments Random')
 
-## Calculate Average Densities in imageset
-
-To be documented...
 
 ## Density correction
 
-The DOL can be corrected by the found density of points to compensate missed localisation due to psf-overlapping. The imageset method `imgset.densityCorrection(baseName, targetName, offset, slope)` will correct the DOL for all images in the included imageset(s). Input parameters are the name of base and target pointset for whom the DOL will be corrected and offest and slope of the linear fit of the density correction derived from simulated data.
+The DOL can be corrected by the found density of points to compensate missed localisation due to psf-overlapping. The imageset method 
+```
+imSet.densityCorrection('ts_multi eGFP fltr sigma', 'ts_multi SNAP fltr sigma', offset, slope);
+```
+* will correct the DOL for all images in the included imageset(s). Input parameters are the name of base and
+target pointset for whom the DOL will be corrected and offest and slope of the linear fit of the density correction derived from simulated data.
 
 ## Access DOL data
 
-* For a single image: E.g. retrieve DOL from 'u-track green' to 'u-track blue'
+* For a single image: E.g. retrieve DOL from 'ts_multi eGFP fltr sigma' to 'ts_multi SNAP fltr sigma'
 
 ```
-mci.results.dolanByVars('basePointSet', mci.pointSetByName('u-track blue'), ...
-	'targetPointSet', mci.pointSetByName('u-track green'),...
+mci.results.dolanByVars('basePointSet', mci.pointSetByName(''ts_multi eGFP fltr sigma''), ...
+	'targetPointSet', mci.pointSetByName('ts_multi SNAP fltr sigma'),...
 	'varName', 'DOL');
 ```
 
@@ -301,8 +303,8 @@ Same thing works for multiple assigned points as well as DOL and multi-assignmen
 ```
 allResults = [beadsImageSets.results];
 dolDolans = allResults.dolanByVars('varName', 'mean DOL',...
-    'basePointSet', 'u-track blue',...
-    'targetPointSet', 'u-track green');
+    'basePointSet', 'ts_multi eGFP fltr sigma',...
+    'targetPointSet', 'ts_multi SNAP fltr sigma');
 
 % plot dol vs. effective laser intensity
 for i = 1:length(dolDolans)
@@ -323,8 +325,8 @@ The method `showImage` displays a multicolorimage and overlays pointsets. Indica
 Example:
 
 ```
-showImage(myImage, {'red', 'blue', 'mask'}, {'u-track red', 'u-track blue'})
+showImage(myImage, {'SNAP', 'eGFP', 'mask'}, {'ts_multi SNAP fltr sigma, 'ts_multi eGFP fltr sigma'})
 ```
 
-displays the red and blue image channel, the outline from the segmentation mask and overlays points from pointset 'u-track red' and 'u-track blue'.
+displays the SNAPtag and eGFP image channel, the outline from the segmentation mask and overlays points from pointset 'ts_multi SNAP fltr sigma' and 'ts_multi eGFP fltr sigma'.
 
