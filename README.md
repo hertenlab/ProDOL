@@ -1,6 +1,5 @@
 # Protein-tag Degree Of Labelling (ProDOL) analysis software
 
-**Author:** F Hild, J Euchner, S Haenselmann, K Yserentant, SA Tashev<br> 
 **Organization:** Herten Lab for Single Molecule Spectroscopy, University of Birmingham, UK  
 **License:** GPLv3  
 **Version:** 2023
