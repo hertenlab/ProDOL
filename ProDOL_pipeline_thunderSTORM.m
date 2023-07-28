@@ -1,4 +1,4 @@
-%Code by F Hild, J Euchner, S Haenselmann & K Yserentant//
+%Code by F Hild, S Haenselmann, J Euchner & K Yserentant//
 %% Pipeline for analyzing DOL data from a single experimental condition, i.e. a given cell type, dye concentration, incubation time.
 % The pipeline can deal with one or two dye channels. Dye channels still have to be named green or red.
 % Input data
