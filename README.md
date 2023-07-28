@@ -1,7 +1,6 @@
 # Protein-tag Degree Of Labelling (ProDOL) analysis software
 
-**Author:** F Hild, J Euchner, S Haenselmann, K Yserentant, SA Tashev
-
+**Author:** F Hild, J Euchner, S Haenselmann, K Yserentant, SA Tashev<br> 
 **Organization:** Herten Lab for Single Molecule Spectroscopy, University of Birmingham, UK  
 **License:** GPLv3  
 **Version:** 2023
@@ -56,21 +55,21 @@ Then press `Run ProDOL analysis`. A new output folder is created with all result
 The data to be analysed should be in a rootfolder which can have multiple subfolders for each condition. Within these subfolders must be the ".tif" files.
 
 example tree structure:
--rootFolder
- |_condition1
-   |_cell01_eGFP.tif
-   |_cell01_HaloTag.tif
-   |_cell01_SNAPtag.tif
-   |_cell02_eGFP.tif
-   |_cell02_HaloTag.tif
-   |_cell02_SNAPtag.tif
- |_condition2
-   |_cell01_eGFP.tif
-   |_cell01_HaloTag.tif
-   |_cell01_SNAPtag.tif
-   |_cell02_eGFP.tif
-   |_cell02_HaloTag.tif
-   |_cell02_SNAPtag.tif
+-rootFolder<br> 
+ |_condition1<br> 
+   |_cell01_eGFP.tif<br> 
+   |_cell01_HaloTag.tif<br> 
+   |_cell01_SNAPtag.tif<br> 
+   |_cell02_eGFP.tif<br> 
+   |_cell02_HaloTag.tif<br> 
+   |_cell02_SNAPtag.tif<br> 
+ |_condition2<br> 
+   |_cell01_eGFP.tif<br> 
+   |_cell01_HaloTag.tif<br> 
+   |_cell01_SNAPtag.tif<br> 
+   |_cell02_eGFP.tif<br> 
+   |_cell02_HaloTag.tif<br> 
+   |_cell02_SNAPtag.tif<br> 
 
 tif files can have an arbitrary name, so long that each channel has a unique identifier, e.g. for the  reference: `eGFP`, `488nm`, or `green`
 
