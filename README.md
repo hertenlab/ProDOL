@@ -56,20 +56,20 @@ The data to be analysed should be in a rootfolder which can have multiple subfol
 
 example tree structure:<br> 
 rootFolder<br> 
-&nbsp;|_condition1<br> 
-&nbsp;&nbsp;|_cell01_eGFP.tif<br> 
-&nbsp;&nbsp;|_cell01_HaloTag.tif<br> 
-&nbsp;&nbsp;|_cell01_SNAPtag.tif<br> 
-&nbsp;&nbsp;|_cell02_eGFP.tif<br> 
-&nbsp;&nbsp;|_cell02_HaloTag.tif<br> 
-&nbsp;&nbsp;|_cell02_SNAPtag.tif<br> 
-&nbsp;|_condition2<br> 
-&nbsp;&nbsp;|_cell01_eGFP.tif<br> 
-&nbsp;&nbsp;|_cell01_HaloTag.tif<br> 
-&nbsp;&nbsp;|_cell01_SNAPtag.tif<br> 
-&nbsp;&nbsp;|_cell02_eGFP.tif<br> 
-&nbsp;&nbsp;|_cell02_HaloTag.tif<br> 
-&nbsp;&nbsp;|_cell02_SNAPtag.tif<br> 
+&nbsp;&nbsp;&nbsp;|_condition1<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell01_eGFP.tif<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell01_HaloTag.tif<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell01_SNAPtag.tif<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell02_eGFP.tif<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell02_HaloTag.tif<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell02_SNAPtag.tif<br> 
+&nbsp;&nbsp;&nbsp;|_condition2<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell01_eGFP.tif<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell01_HaloTag.tif<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell01_SNAPtag.tif<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell02_eGFP.tif<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell02_HaloTag.tif<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell02_SNAPtag.tif<br> 
 
 tif files can have an arbitrary name, so long that each channel has a unique identifier, e.g. for the  reference: `eGFP`, `488nm`, or `green`
 
