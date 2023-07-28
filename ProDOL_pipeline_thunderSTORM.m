@@ -1,3 +1,4 @@
+%Code by F Hild, J Euchner, S Haenselmann & K Yserentant//
 %% Pipeline for analyzing DOL data from a single experimental condition, i.e. a given cell type, dye concentration, incubation time.
 % The pipeline can deal with one or two dye channels. Dye channels still have to be named green or red.
 % Input data
@@ -5,7 +6,7 @@
 % - multichannel images are constructed based on 'cellXX_' nomenclature:
 % 'cell' is used as identifier, 'XX' is unique ID for each cell, '_' serves to indicate end of ID
 % - thunderSTORM results file obtained from processing of images in
-% 3ChannelsMask dir with ImageJ script 'DOL_thunderSTORMlocalization_efficient.ijm'
+% 3ChannelsMask dir with ImageJ script 'processAverageIJwiththunderSTORM.ijm'
 
 InterfaceProDOL = singlecondition.ProDOL;
 
