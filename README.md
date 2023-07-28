@@ -54,22 +54,22 @@ Then press `Run ProDOL analysis`. A new output folder is created with all result
 ### Structure of the input
 The data to be analysed should be in a rootfolder which can have multiple subfolders for each condition. Within these subfolders must be the ".tif" files.
 
-example tree structure:
--rootFolder<br> 
- |_condition1<br> 
-   |_cell01_eGFP.tif<br> 
-   |_cell01_HaloTag.tif<br> 
-   |_cell01_SNAPtag.tif<br> 
-   |_cell02_eGFP.tif<br> 
-   |_cell02_HaloTag.tif<br> 
-   |_cell02_SNAPtag.tif<br> 
- |_condition2<br> 
-   |_cell01_eGFP.tif<br> 
-   |_cell01_HaloTag.tif<br> 
-   |_cell01_SNAPtag.tif<br> 
-   |_cell02_eGFP.tif<br> 
-   |_cell02_HaloTag.tif<br> 
-   |_cell02_SNAPtag.tif<br> 
+example tree structure:<br> 
+rootFolder<br> 
+&nbsp;|_condition1<br> 
+&nbsp;&nbsp;|_cell01_eGFP.tif<br> 
+&nbsp;&nbsp;|_cell01_HaloTag.tif<br> 
+&nbsp;&nbsp;|_cell01_SNAPtag.tif<br> 
+&nbsp;&nbsp;|_cell02_eGFP.tif<br> 
+&nbsp;&nbsp;|_cell02_HaloTag.tif<br> 
+&nbsp;&nbsp;|_cell02_SNAPtag.tif<br> 
+&nbsp;|_condition2<br> 
+&nbsp;&nbsp;|_cell01_eGFP.tif<br> 
+&nbsp;&nbsp;|_cell01_HaloTag.tif<br> 
+&nbsp;&nbsp;|_cell01_SNAPtag.tif<br> 
+&nbsp;&nbsp;|_cell02_eGFP.tif<br> 
+&nbsp;&nbsp;|_cell02_HaloTag.tif<br> 
+&nbsp;&nbsp;|_cell02_SNAPtag.tif<br> 
 
 tif files can have an arbitrary name, so long that each channel has a unique identifier, e.g. for the  reference: `eGFP`, `488nm`, or `green`
 
