@@ -46,7 +46,7 @@ par_mf_sameint = newArray("false");				// default: keep_same_intensity=false
 par_mf_pval = newArray("1.0E-6");				// default: pvalue=1.0E-6
 par_mf_fixedint = newArray("false");				// default: fixed_intensity=false
 
-setBatchMode(true)
+setBatchMode(true);
 
 //find all directories
 list = getFileList(root_dir);
@@ -156,7 +156,7 @@ for (i=1; i<dir_list.length; i++) {
 // processing script
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 fs = File.separator;
-setBatchMode("true");
+setBatchMode(true);
 rootfilelist = getFileList(root_dir);
 for (i=0; i<rootfilelist.length; i++) {
 	run("Clear Results");
