@@ -14,10 +14,13 @@ please cite this publication if you found this software useful.
 
 Although the package was tested with specific versions, other relatively new versions will likely work as well. If you have issues please get in touch. If you have issues with older ImageJ/MATLAB versions please consider updating.
 
-- **MATLAB:**
-	Tested with MATLAB 2021b
 - **ImageJ:**
 	Tested with ImageJ 1.54f
+- **ImageJ/ThunderSTORM:**
+	Tested with 1.3-2014-11-08
+	available from: https://github.com/zitmen/thunderstorm/releases
+- **MATLAB:**
+	Tested with MATLAB 2021b
 - **MATLAB/Image Processing Toolbox:**
 	Tested with Version 11.1
 - **MATLAB/Statistics and Machine Learning Toolbox:**
@@ -26,9 +29,7 @@ Although the package was tested with specific versions, other relatively new ver
 	Tested with Version 7.2
 - **MATLAB/Polyspace Bug Finder (optional):**
 	Tested with Versio 3.2
-- **ImageJ/ThunderSTORM:**
-	Tested with 1.3-2014-11-08
-	available from: https://github.com/zitmen/thunderstorm/releases
+
 
 ## Installation
 
