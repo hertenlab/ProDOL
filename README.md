@@ -40,7 +40,7 @@ Open ImageJ and select `Plugins` -> `Marcos` -> `Run...`. Then navigate to the d
 Now input the relevant information into the GUI.
 - `Reference Identifier` defines the unique string within the imagename to identifty the reference channel. E.g. `eGFP`
 - `HaloTag Identifier` defines the unique string within the imagename to identifty the HaloTag channel. E.g. `HaloTag`
-- `SNAPtag Identifier` defines the unique string within the imagename to identifty the HaloTag channel. E.g. `SNAPtag`
+- `SNAPtag Identifier` defines the unique string within the imagename to identifty the SNAPtag channel. E.g. `SNAPtag`
 - Define additional parameters such as `pixelwidth`, and camera parameters `gain`, `offset`, and `ADU per photon`
 
 By clicking [OK], you then have to navigate to the root folder of the data to be analysed. The code then runs for several minutes to first convert the data into a consistent dataformat, average the imageStack, and run a single-molecule localisation algorithm on the images.
