@@ -19,13 +19,13 @@ Although the package was tested with specific versions, other relatively new ver
 - **ImageJ:**
 	Tested with ImageJ 1.54f
 - **MATLAB/Image Processing Toolbox:**
-	Tested with MATLAB 2021b
+	Tested with Version 11.1
 - **MATLAB/Statistics and Machine Learning Toolbox:**
-	Tested with MATLAB 2021b
+	Tested with Version 11.7
 - **MATLAB/Parallel Computing Toolbox:**
-	Tested with MATLAB 2021b
+	Tested with Version 7.2
 - **MATLAB/Polyspace Bug Finder (optional):**
-	Tested with MATLAB 2021b
+	Tested with Versio 3.2
 - **ImageJ/ThunderSTORM:**
 	Tested with 1.3-2014-11-08
 	available from: https://github.com/zitmen/thunderstorm/releases
