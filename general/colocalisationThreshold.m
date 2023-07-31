@@ -24,15 +24,23 @@ function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds
     meanCol = nanmean(Coloc,1);
     meanColRandom = nanmean(ColocRandom,1);
 
-    [~,index] = max(meanCol/max(meanCol)-meanColRandom/max(meanColRandom));
+    ColMean = (meanCol(1:end-6)+meanCol(2:end-5)+meanCol(3:end-4)+meanCol(4:end-3)+meanCol(5:end-2)+meanCol(6:end-1)+meanCol(7:end))/7;
+    ColMeans2 = [meanCol(1:3),ColMean,meanCol(end-2:end)];
+    
+    ColMeanRandom = (meanColRandom(1:end-6)+meanColRandom(2:end-5)+meanColRandom(3:end-4)+meanColRandom(4:end-3)+meanColRandom(5:end-2)+meanColRandom(6:end-1)+meanColRandom(7:end))/7;
+    ColMeans2Random = [meanColRandom(1:3),ColMeanRandom,meanColRandom(end-2:end)];
+    
+    [~,index] = max(ColMeans2/max(ColMeans2)-ColMeans2Random/max(ColMeans2Random));
     finalThreshold = thresholds(index);
 
+    
+    
     % plot specific colocalisation
     if ~isempty(varargin) && strcmp(varargin{1}, 'plot')
         figure()
         title(['Colocalisation Threshold ' inputname(1)])
         hold on
-        Col = plot(thresholds,meanCol/max(meanCol)-meanColRandom/max(meanColRandom),'linewidth',3,'Color', [0 0.5 0]);
+        Col = plot(thresholds,ColMeans2/max(ColMeans2)-ColMeans2Random/max(ColMeans2Random),'linewidth',3,'Color', [0 0.5 0]);
         ax = gca;
         ax.XAxis.Label.String = 'spatial tolerance [px]';
         ax.YAxis.Label.String = {'normalized number of' 'specific colocalisations Z'};
