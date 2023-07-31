@@ -220,10 +220,10 @@ function evaluate(hObject, eventdata, eligibility)
 end
 
 function closeWindow(hObject, eventdata)
-
     handles = getappdata(gcbf, 'handles');
-    close(handles.showImageH);
+    if isfield(handles,'showImageH')
+        close(handles.showImageH);
+    end
     delete(hObject);
-
 end
 
