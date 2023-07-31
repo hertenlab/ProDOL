@@ -78,7 +78,7 @@ rootFolder<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell02_HaloTag.tif<br> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_cell02_SNAPtag.tif<br> 
 
-tif files can have an arbitrary name, so long that each channel has a unique identifier, e.g. for the  reference: `eGFP`, `488nm`, or `green`
+tif files can have an arbitrary name, so long that each channel has a unique identifier, e.g. for the  reference: `eGFP`, `488nm`, or `Halo`
 
 ### Structure of the result
 The imageJ-script generates two folder:
@@ -110,7 +110,7 @@ The MATLAB routine generates one output folder with following files:
 
 #### properties
 
-+ `channels` color channels of multicolor image (e.g. blue, bleached, green, red, mask) with path of respective tif-file
++ `channels` color channels of multicolor image (e.g. eGFP, bleached, Halo, SNAP, mask) with path of respective tif-file
 + `pixelSize` of tif files
 + `childPointSets` pointsets belonging to this image 
   That does not necessarily correspond to the channels, could be different point detection algorithms performed on one channel. Also filtering can create a new pointset containing less points
@@ -121,7 +121,7 @@ The MATLAB routine generates one output folder with following files:
 ### imageset class
 
 + `(multichannelimage) childImages`
-+ `descriptors` variable number of unique parameters, defined as structure array with property-value pars. E.g. cell type, concentration, ... for cell screen; laser intensity, nd-filter for beads; dye combinations for dye screen; red/green background for simulated data. On overview table of the imagesets and descriptors of an object (array) can be called with `imgSet.getAllDescriptors()`
++ `descriptors` variable number of unique parameters, defined as structure array with property-value pars. E.g. cell type, concentration, ... for cell screen; laser intensity, nd-filter for beads; dye combinations for dye screen; SNAP/Halo background for simulated data. On overview table of the imagesets and descriptors of an object (array) can be called with `imgSet.getAllDescriptors()`
 + `(dolan) results` array to store colocalisation analysis data, like DOL, multi-assignments, density, etc.  averaged over all images of this imageset.
 + `colocThreshold` max distance for colocalisation
 
@@ -151,13 +151,13 @@ As datasets are heterogeneous import of data has to be designed for every experi
 1. construct imageset
    An imageset represents a collection of multichannelimages with identical conditions. These conditions are stored in `imgset.descriptors` and should contain at least enough descriptors to uniquely distinguish it from other imagesets you are working on in parrallel.
 2. add images
-   create a multichannelimage object for every replicate in every imageset. Add a channel name (usually: 'blue', 'green', 'red', 'mask', 'bleached', 'gray') and the path to the respective tif-file.
+   create a multichannelimage object for every replicate in every imageset. Add a channel name (usually: 'eGFP', 'Halo', 'SNAP', 'mask', 'bleached', 'gray') and the path to the respective tif-file.
 3. add pointsets by importing
    for every multichannelimage you can add any number of pointsets. Data formats and structures are different for sources of pointsets, so this has to be customized. Generally it is advisable to move through the DOLAN data structure (i.e. imagesets and multichannelimages) and to search for matches with the point sources.
 
 ## Visual Inspection for prescreening
 
-dataSetInspector lets you browse through the dataset by displaying the 'blue' channel image and the segmentation. After visual inspection cells can be marked to be included or excluded for calculation of mean values in the set (e.g. DOL or density). The tool is called for a imageset with
+dataSetInspector lets you browse through the dataset by displaying the 'eGFP' channel image and the segmentation. After visual inspection cells can be marked to be included or excluded for calculation of mean values in the set (e.g. DOL or density). The tool is called for a imageset with
 
 ```
 dataSetInspector(imgset)
@@ -189,7 +189,7 @@ imSet.calculateTransformation('ts_multi eGFP fltr sigma', 'ts_multi Halo fltr si
   - if calculated transformation uses large changes (translation > 20px, rotation > 5°, scaling > 1%) a warning is displayed
 
 ```
-meanTgreen = imSet.calculateMeanTransformation('ts_multi eGFP fltr sigma', 'ts_multi Halo fltr sigma');
+meanTHalo = imSet.calculateMeanTransformation('ts_multi eGFP fltr sigma', 'ts_multi Halo fltr sigma');
 ```
 
 - calculate mean transformation (on imageset or imageset vector)
@@ -327,7 +327,7 @@ ylabel('DOL')
 
 # Image Display
 
-The method `showImage` displays a multicolorimage and overlays pointsets. Indicate a cell array to display the image channels (as defined in imageset creation, e.g. 'red', 'green', 'blue', 'gray', 'mask') if available and a string or a cell array for pointsets to be displayed.
+The method `showImage` displays a multicolorimage and overlays pointsets. Indicate a cell array to display the image channels (as defined in imageset creation, e.g. 'SNAP', 'Halo', 'eGFP', 'gray', 'mask') if available and a string or a cell array for pointsets to be displayed.
 
 Example:
 
