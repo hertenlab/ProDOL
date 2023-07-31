@@ -4,7 +4,7 @@
 function imageSetInspector(imgSet)
 
     figH = figure('Position', [100 100 494 171],...
-        'Name', 'blueCherryPicker',...
+        'Name', 'refCherryPicker',...
         'WindowKeyPressFcn', @KeyControl,...
         'WindowKeyReleaseFcn', @KeyRelease,...
         'CloseRequestFcn', @closeWindow);
@@ -116,7 +116,7 @@ function initializeImages(figH, imgSet)
     % random order indices
     handles.randomIndex = randperm(numel(handles.imageVector));
     
-    handles.showImageH = figure('Name', 'blueCherryPicker - showImage');
+    handles.showImageH = figure('Name', 'ReferenceCherryPicker - showImage');
     
     setappdata(figH, 'handles', handles);
     showCurrentImage(figH, []);
@@ -151,7 +151,7 @@ function showCurrentImage(figH, eventdata)
     end
     
     currentImage = handles.imageVector(handles.imageDrop.Value);
-    showImage(currentImage, {'blue', 'mask'}, '', handles.showImageH);
+    showImage(currentImage, {'eGFP', 'mask'}, '', handles.showImageH);
     
     if isempty(currentImage.include)
         handles.includeButton.FontWeight = 'normal';
