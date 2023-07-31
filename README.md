@@ -17,8 +17,9 @@ Although the package was tested with specific versions, other relatively new ver
 - **ImageJ:**
 	Tested with ImageJ 1.54f
 - **ImageJ/ThunderSTORM:**
-	Tested with 1.3-2014-11-08
+	Tested with 1.3-2014-11-08<br>
 	available from: https://github.com/zitmen/thunderstorm/releases
+
 - **MATLAB:**
 	Tested with MATLAB 2021b
 - **MATLAB/Image Processing Toolbox:**
