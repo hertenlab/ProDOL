@@ -45,7 +45,7 @@ Now input the relevant information into the GUI.
 
 By clicking [OK], you then have to navigate to the root folder of the data to be analysed. The code then runs for several minutes to first convert the data into a consistent dataformat, average the imageStack, and run a single-molecule localisation algorithm on the images.
 
-After completing each dataset folder should contain two new folders - `3Channels_Mask` and `ThunderSTORM_results`.
+After completion a message box will pop-up stating that the script completed successfully. Each dataset folder should contain two new folders - `3Channels_Mask` and `ThunderSTORM_results`.
 
 
 ### MATLAB routine
