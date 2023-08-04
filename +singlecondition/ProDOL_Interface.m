@@ -150,7 +150,7 @@ classdef ProDOL_Interface < matlab.apps.AppBase
             app.SelectsoftwarerootfolderButton.ButtonPushedFcn = createCallbackFcn(app, @SelectsoftwarerootfolderButtonPushed, true);
             app.SelectsoftwarerootfolderButton.Layout.Row = 4;
             app.SelectsoftwarerootfolderButton.Layout.Column = 1;
-            app.SelectsoftwarerootfolderButton.Text = {'Select software'; ' root folder'};
+            app.SelectsoftwarerootfolderButton.Text = {'Select software'; 'root folder'};
 
             % Create EditField_4
             app.EditField_4 = uieditfield(app.GridLayout, 'text');
@@ -168,7 +168,7 @@ classdef ProDOL_Interface < matlab.apps.AppBase
             app.ChannelsmaskfoldernameLabel = uilabel(app.GridLayout);
             app.ChannelsmaskfoldernameLabel.Layout.Row = 6;
             app.ChannelsmaskfoldernameLabel.Layout.Column = 1;
-            app.ChannelsmaskfoldernameLabel.Text = {'Channels & mask'; ' folder name'};
+            app.ChannelsmaskfoldernameLabel.Text = {'Channels & mask'; 'folder name'};
 
             % Create ThunderSTORMfoldernameLabel
             app.ThunderSTORMfoldernameLabel = uilabel(app.GridLayout);
