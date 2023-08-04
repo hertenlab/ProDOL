@@ -115,7 +115,7 @@ classdef ProDOL_Interface < matlab.apps.AppBase
             app.SelectdatarootfolderButton.ButtonPushedFcn = createCallbackFcn(app, @SelectdatarootfolderButtonPushed, true);
             app.SelectdatarootfolderButton.Layout.Row = 5;
             app.SelectdatarootfolderButton.Layout.Column = 1;
-            app.SelectdatarootfolderButton.Text = {'Select data'; 'root folder'};
+            app.SelectdatarootfolderButton.Text = {'Select image data'; 'root folder'};
 
             % Create EditField
             app.EditField = uieditfield(app.GridLayout, 'text');
