@@ -29,7 +29,15 @@ Dialog.create("Analysis parameter wizard");
 	Dialog.addString("Camera offset", offset);
 	Dialog.addString("ADU of photons", ADUphoton);
 	Dialog.show();
-	
+
+reference = Dialog.getString();
+HaloTag = Dialog.getString();
+SNAPtag = Dialog.getString();
+pixelsize = Dialog.getString();
+gain = Dialog.getString();
+offset = Dialog.getString();
+ADUphoton = Dialog.getString();
+
 root_dir = getDirectory("Choose a root directory containing image data");
 root_folder = File.getName(root_dir);
 
