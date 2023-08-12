@@ -76,7 +76,7 @@ for (i=1; i<dir_list.length; i++) {
 		File.makeDirectory(CompFolder);
 		
 		for(j=0; j<subdir_files.length; j++) {
-			if (matches(subdir_files[j], ".*"+reference+".*")) {
+			if (matches(subdir_files[j], ".*"+reference+".*") && endsWith(subdir_files[j], ".tif")) {
 				nameref = subdir_files[j]; //full file name
 				nameStem=replace(nameref,reference,"");
 				dotIndex = indexOf(nameStem, ".");
@@ -113,25 +113,21 @@ for (i=1; i<dir_list.length; i++) {
 								saveAs("tif", CompFolder+"cell"+cellNo+"_mask.tif");
 							}
 						}
-			
-					else if (matches(name,".*"+HaloTag+".*")) {
-						run("Z Project...", "stop=10 projection=[Average Intensity]");
-						saveAs("tif", CompFolder+"cell"+cellNo+"_Halo.tif");	
-					}
-			
-					else if (endsWith(name, "greenBleach.tif")) {
-						run("Z Project...", "stop=10 projection=[Average Intensity]");
-						name=replace(name,"greenBleach","bleached"); 
-						saveAs("tif", CompFolder+"cell"+cellNo+"_bleached.tif");
-					}
-			
-					else if (matches(name, ".*"+SNAPtag+".*")) {
+						else if (matches(name,".*"+HaloTag+".*")) {
+							run("Z Project...", "stop=10 projection=[Average Intensity]");
+							saveAs("tif", CompFolder+"cell"+cellNo+"_Halo.tif");	
+						}
+						else if (endsWith(name, "greenBleach.tif")) {
+							run("Z Project...", "stop=10 projection=[Average Intensity]");
+							name=replace(name,"greenBleach","bleached"); 
+							saveAs("tif", CompFolder+"cell"+cellNo+"_bleached.tif");
+						}
+						else if (matches(name, ".*"+SNAPtag+".*")) {
 							if (matches(name, ".*gSEP.*")) {
 								run("Z Project...", "stop=10 projection=[Average Intensity]");
 								saveAs("tif", CompFolder+"cell"+cellNo+"_SNAP.tif");	
 							}	
-			
-						else if (matches(name, ".*LynG.*")) {
+							else if (matches(name, ".*LynG.*")) {
 								run("Z Project...", "start=11 stop=20 projection=[Average Intensity]"); //Use frame 11 to 20 for LynG red only
 								saveAs("tif", CompFolder+"cell"+cellNo+"_SNAP.tif");	
 							}
@@ -148,10 +144,9 @@ for (i=1; i<dir_list.length; i++) {
 							j=j-1;
 							//error(""+root_dir+dir_list[i]+name+" has a wrong file name");
 						}
-			
 						while (nImages>0) { 
-						          selectImage(nImages); 
-						          close(); 
+							selectImage(nImages); 
+							close(); 
 			  			} 
 					}
 				}
