@@ -6,7 +6,7 @@
 
 Package providing a framework for Degree Of Labelling analysis usng ProDOL probe. The details of the analysis software and validation with experimental data are described in a bioRxiv preprint:
 
-[to be submitted](to be submitted)
+[A General Method to Accurately Count Molecular Complexes and Determine the Degree of Labelling in Cells Using Protein Tags](https://www.biorxiv.org/content/10.1101/2023.09.08.556847v1)
 
 please cite this publication if you found this software useful.
 
