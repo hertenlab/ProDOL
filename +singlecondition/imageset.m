@@ -224,13 +224,13 @@ classdef imageset < matlab.mixin.Copyable
         end
         
         % Complete colocalisation procedure for all images in this imageset
-        function colocalisation(obj, baseName, targetName, saveDir)
+        function colocalisation(obj, baseName, targetName, saveDir, showIntermediate)
             
             fprintf('## Calculating colocalisation ##\n''%s'' <-> ''%s''\n', baseName, targetName);
             obj.calculateColocOverThresholds(baseName, targetName)
             
             disp('# Calculating significant colocalisation distance threshold #');
-            obj.findSignificantThreshold(baseName, targetName,saveDir);
+            obj.findSignificantThreshold(baseName, targetName,saveDir, showIntermediate);
             disp('# Extract colocalisation at distance threshold #');
             obj.setSignificantDOL(baseName, targetName);
             
@@ -272,7 +272,7 @@ classdef imageset < matlab.mixin.Copyable
         % Calculate significant colocalisation distance threshold by
         % comparing degree of colocalisation with random control in
         % dependence of the distance threshold
-        function findSignificantThreshold(obj, baseName, targetName, saveDir)
+        function findSignificantThreshold(obj, baseName, targetName, saveDir, showIntermediate)
             % calculate mean DOL all input imageset
             % determine significant distance threshold
             allImages = [obj.childImages];
@@ -306,7 +306,7 @@ classdef imageset < matlab.mixin.Copyable
             
             thresholds = dolDolan.parameter;
             
-            distanceThreshold = colocalisationThreshold(dolValues, randomValues, thresholds,saveDir,targetName, 'plot');
+            distanceThreshold = colocalisationThreshold(dolValues, randomValues, thresholds,saveDir,targetName,showIntermediate, 'plot');
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %distanceThreshold = 3.0;
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%            
@@ -640,13 +640,7 @@ classdef imageset < matlab.mixin.Copyable
                     meanDolCorr, errDolCorr, comment);
                 resultDolan.includedImageSets = obj;
                 obj(i).addResults(resultDolan);
-            end
-            
-            
-        end        
-        
-    end
-    
+            end 
+        end         
+    end 
 end
-
-

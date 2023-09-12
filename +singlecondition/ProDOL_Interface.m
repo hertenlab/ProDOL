@@ -25,8 +25,10 @@ classdef ProDOL_Interface < matlab.apps.AppBase
         ContextMenu                     matlab.ui.container.ContextMenu
         Menu                            matlab.ui.container.Menu
         Menu2                           matlab.ui.container.Menu
+        ShowintermediateresultsCheckBox matlab.ui.control.CheckBox
+        ShowDOLresultsCheckBox          matlab.ui.control.CheckBox
     end
-
+        
     % Callbacks that handle component events
     methods (Access = private)
 
@@ -40,7 +42,17 @@ classdef ProDOL_Interface < matlab.apps.AppBase
         % Value changed function: EditField
         function EditFieldValueChanged(app, event)
             value1 = app.EditField.Value;
-            
+
+        end
+        
+        % Value changed function: ShowintermediateresultsCheckBox
+        function ShowintermediateresultsCheckBoxValueChanged(app, event)
+            showIntermediate = app.ShowintermediateresultsCheckBox.Value;
+        end
+
+        % Value changed function: ShowDOLresultsCheckBox
+        function ShowDOLresultsCheckBoxValueChanged(app, event)
+            showDOL = app.ShowDOLresultsCheckBox.Value;
         end
 
         % Value changed function: EditField_2
@@ -61,11 +73,15 @@ classdef ProDOL_Interface < matlab.apps.AppBase
             app.EditField_3.Value=dolP;
             figure(app.UIFigure);
         end
-
+ 
         % Button pushed function: RunProDOLanalysisButton
         function RunProDOLanalysisButtonPushed(app, event)
             assignin('base','pixelsize',app.EditField_2.Value)
-            assignin('base','dolP',app.EditField_3.Value)
+            if isdeployed()==0
+                assignin('base','dolP',app.EditField_3.Value)
+            end
+            assignin('base','showIntermediate',app.ShowintermediateresultsCheckBox.Value)
+            assignin('base','showDOL',app.ShowDOLresultsCheckBox.Value)
             assignin('base','rootfolder',app.EditField.Value)
             assignin('base','expressionCh',app.EditField_4.Value)
             assignin('base','expressionTS',app.EditField_5.Value)
@@ -102,28 +118,142 @@ classdef ProDOL_Interface < matlab.apps.AppBase
 
             % Create UIFigure and hide until all components are created
             app.UIFigure = uifigure('Visible', 'off');
-            app.UIFigure.Position = [100 100 572 377];
+            if isdeployed()==0
+                app.UIFigure.Position = [100 100 572 377];
+            else
+                app.UIFigure.Position = [100 100 572 341];
+            end
             app.UIFigure.Name = 'MATLAB App';
 
             % Create GridLayout
             app.GridLayout = uigridlayout(app.UIFigure);
             app.GridLayout.ColumnWidth = {117, '1x', 45, 117, '1x', 45};
-            app.GridLayout.RowHeight = {55, 22, 22, 36, 36, 36, 36, 40};
+            
+            if isdeployed()==0
+                app.GridLayout.RowHeight = {55, 22, 22, 36, 36, 36, 36, 40};
 
-            % Create SelectdatarootfolderButton
-            app.SelectdatarootfolderButton = uibutton(app.GridLayout, 'push');
-            app.SelectdatarootfolderButton.ButtonPushedFcn = createCallbackFcn(app, @SelectdatarootfolderButtonPushed, true);
-            app.SelectdatarootfolderButton.Layout.Row = 5;
-            app.SelectdatarootfolderButton.Layout.Column = 1;
-            app.SelectdatarootfolderButton.Text = {'Select image data'; 'root folder'};
+                % Create SelectsoftwarerootfolderButton
+                app.SelectsoftwarerootfolderButton = uibutton(app.GridLayout, 'push');
+                app.SelectsoftwarerootfolderButton.ButtonPushedFcn = createCallbackFcn(app, @SelectsoftwarerootfolderButtonPushed, true);
+                app.SelectsoftwarerootfolderButton.Layout.Row = 4;
+                app.SelectsoftwarerootfolderButton.Layout.Column = 1;
+                app.SelectsoftwarerootfolderButton.Text = {'Select software'; 'root folder'};
+                
+                % Create SelectdatarootfolderButton
+                app.SelectdatarootfolderButton = uibutton(app.GridLayout, 'push');
+                app.SelectdatarootfolderButton.ButtonPushedFcn = createCallbackFcn(app, @SelectdatarootfolderButtonPushed, true);
+                app.SelectdatarootfolderButton.Layout.Row = 5;
+                app.SelectdatarootfolderButton.Layout.Column = 1;
+                app.SelectdatarootfolderButton.Text = {'Select image data'; 'root folder'};
 
+                % Create EditField_3
+                app.EditField_3 = uieditfield(app.GridLayout, 'text');
+                app.EditField_3.ValueChangedFcn = createCallbackFcn(app, @EditField_3ValueChanged, true);
+                app.EditField_3.Layout.Row = 4;
+                app.EditField_3.Layout.Column = [2 6];
+                app.EditField_3.Value = 'C:\ProDOL-v1.1';
+                
             % Create EditField
-            app.EditField = uieditfield(app.GridLayout, 'text');
-            app.EditField.ValueChangedFcn = createCallbackFcn(app, @EditFieldValueChanged, true);
-            app.EditField.Layout.Row = 5;
-            app.EditField.Layout.Column = [2 6];
-            app.EditField.Value = 'E:\ProDOL-App\ExampleData';
+                app.EditField = uieditfield(app.GridLayout, 'text');
+                app.EditField.ValueChangedFcn = createCallbackFcn(app, @EditFieldValueChanged, true);
+                app.EditField.Layout.Row = 5;
+                app.EditField.Layout.Column = [2 6];
+                app.EditField.Value = 'C:\ProDOL-v1.1\ExampleData';
+            
+                % Create EditField_4
+                app.EditField_4 = uieditfield(app.GridLayout, 'text');
+                app.EditField_4.Layout.Row = 6;
+                app.EditField_4.Layout.Column = [2 6];
+                app.EditField_4.Value = '3Channels_Mask';
 
+                % Create EditField_5
+                app.EditField_5 = uieditfield(app.GridLayout, 'text');
+                app.EditField_5.Layout.Row = 7;
+                app.EditField_5.Layout.Column = [2 6];
+                app.EditField_5.Value = 'ThunderSTORM_results';
+
+                % Create ChannelsmaskfoldernameLabel
+                app.ChannelsmaskfoldernameLabel = uilabel(app.GridLayout);
+                app.ChannelsmaskfoldernameLabel.Layout.Row = 6;
+                app.ChannelsmaskfoldernameLabel.Layout.Column = 1;
+                app.ChannelsmaskfoldernameLabel.Text = {'Channels & mask'; 'folder name'};
+                
+                % Create ThunderSTORMfoldernameLabel
+                app.ThunderSTORMfoldernameLabel = uilabel(app.GridLayout);
+                app.ThunderSTORMfoldernameLabel.Layout.Row = 7;
+                app.ThunderSTORMfoldernameLabel.Layout.Column = 1;
+                app.ThunderSTORMfoldernameLabel.Text = {'ThunderSTORM '; 'folder name'};
+
+                % Create RunProDOLanalysisButton
+                app.RunProDOLanalysisButton = uibutton(app.GridLayout, 'push');
+                app.RunProDOLanalysisButton.ButtonPushedFcn = createCallbackFcn(app, @RunProDOLanalysisButtonPushed, true);
+                app.RunProDOLanalysisButton.Layout.Row = 8;
+                app.RunProDOLanalysisButton.Layout.Column = [1 6];
+                app.RunProDOLanalysisButton.Text = 'Run ProDOL analysis';
+            else 
+                app.GridLayout.RowHeight = {55, 22, 22, 36, 36, 36, 40};
+
+                % Create SelectdatarootfolderButton
+                app.SelectdatarootfolderButton = uibutton(app.GridLayout, 'push');
+                app.SelectdatarootfolderButton.ButtonPushedFcn = createCallbackFcn(app, @SelectdatarootfolderButtonPushed, true);
+                app.SelectdatarootfolderButton.Layout.Row = 4;
+                app.SelectdatarootfolderButton.Layout.Column = 1;
+                app.SelectdatarootfolderButton.Text = {'Select image data'; 'root folder'};
+
+                % Create EditField
+                app.EditField = uieditfield(app.GridLayout, 'text');
+                app.EditField.ValueChangedFcn = createCallbackFcn(app, @EditFieldValueChanged, true);
+                app.EditField.Layout.Row = 4;
+                app.EditField.Layout.Column = [2 6];
+                app.EditField.Value = 'C:\ProDOL-v1.1\ExampleData';
+            
+                % Create EditField_4
+                app.EditField_4 = uieditfield(app.GridLayout, 'text');
+                app.EditField_4.Layout.Row = 5;
+                app.EditField_4.Layout.Column = [2 6];
+                app.EditField_4.Value = '3Channels_Mask';
+
+                % Create EditField_5
+                app.EditField_5 = uieditfield(app.GridLayout, 'text');
+                app.EditField_5.Layout.Row = 6;
+                app.EditField_5.Layout.Column = [2 6];
+                app.EditField_5.Value = 'ThunderSTORM_results';
+
+                % Create ChannelsmaskfoldernameLabel
+                app.ChannelsmaskfoldernameLabel = uilabel(app.GridLayout);
+                app.ChannelsmaskfoldernameLabel.Layout.Row = 5;
+                app.ChannelsmaskfoldernameLabel.Layout.Column = 1;
+                app.ChannelsmaskfoldernameLabel.Text = {'Channels & mask'; 'folder name'};
+
+                % Create ThunderSTORMfoldernameLabel
+                app.ThunderSTORMfoldernameLabel = uilabel(app.GridLayout);
+                app.ThunderSTORMfoldernameLabel.Layout.Row = 6;
+                app.ThunderSTORMfoldernameLabel.Layout.Column = 1;
+                app.ThunderSTORMfoldernameLabel.Text = {'ThunderSTORM '; 'folder name'};
+
+                % Create RunProDOLanalysisButton
+                app.RunProDOLanalysisButton = uibutton(app.GridLayout, 'push');
+                app.RunProDOLanalysisButton.ButtonPushedFcn = createCallbackFcn(app, @RunProDOLanalysisButtonPushed, true);
+                app.RunProDOLanalysisButton.Layout.Row = 7;
+                app.RunProDOLanalysisButton.Layout.Column = [1 6];
+                app.RunProDOLanalysisButton.Text = 'Run ProDOL analysis';
+            end
+            
+            % Create CheckintermediateresultsCheckBox
+            app.ShowintermediateresultsCheckBox = uicheckbox(app.GridLayout);
+            app.ShowintermediateresultsCheckBox.ValueChangedFcn = createCallbackFcn(app, @ShowintermediateresultsCheckBoxValueChanged, true);
+            app.ShowintermediateresultsCheckBox.Text = {'Show';'intermediates'};
+            app.ShowintermediateresultsCheckBox.Layout.Row = 1;
+            app.ShowintermediateresultsCheckBox.Layout.Column = 4;
+
+            % Create ShowDOLresultsCheckBox
+            app.ShowDOLresultsCheckBox = uicheckbox(app.GridLayout);
+            app.ShowDOLresultsCheckBox.ValueChangedFcn = createCallbackFcn(app, @ShowDOLresultsCheckBoxValueChanged, true);
+            app.ShowDOLresultsCheckBox.Text = {'Show';'DOL results'};
+            app.ShowDOLresultsCheckBox.Layout.Row = 1;
+            app.ShowDOLresultsCheckBox.Layout.Column = 5;
+            app.ShowDOLresultsCheckBox.Value = true;
+            
             % Create PixelwidthnmLabel
             app.PixelwidthnmLabel = uilabel(app.GridLayout);
             app.PixelwidthnmLabel.Layout.Row = 2;
@@ -137,51 +267,6 @@ classdef ProDOL_Interface < matlab.apps.AppBase
             app.EditField_2.Layout.Row = 2;
             app.EditField_2.Layout.Column = [2 3];
             app.EditField_2.Value = 105.6;
-
-            % Create EditField_3
-            app.EditField_3 = uieditfield(app.GridLayout, 'text');
-            app.EditField_3.ValueChangedFcn = createCallbackFcn(app, @EditField_3ValueChanged, true);
-            app.EditField_3.Layout.Row = 4;
-            app.EditField_3.Layout.Column = [2 6];
-            app.EditField_3.Value = 'E:\ProDOL-App\DOL_Github';
-
-            % Create SelectsoftwarerootfolderButton
-            app.SelectsoftwarerootfolderButton = uibutton(app.GridLayout, 'push');
-            app.SelectsoftwarerootfolderButton.ButtonPushedFcn = createCallbackFcn(app, @SelectsoftwarerootfolderButtonPushed, true);
-            app.SelectsoftwarerootfolderButton.Layout.Row = 4;
-            app.SelectsoftwarerootfolderButton.Layout.Column = 1;
-            app.SelectsoftwarerootfolderButton.Text = {'Select software'; 'root folder'};
-
-            % Create EditField_4
-            app.EditField_4 = uieditfield(app.GridLayout, 'text');
-            app.EditField_4.Layout.Row = 6;
-            app.EditField_4.Layout.Column = [2 6];
-            app.EditField_4.Value = '3Channels_Mask';
-
-            % Create EditField_5
-            app.EditField_5 = uieditfield(app.GridLayout, 'text');
-            app.EditField_5.Layout.Row = 7;
-            app.EditField_5.Layout.Column = [2 6];
-            app.EditField_5.Value = 'ThunderSTORM_results';
-
-            % Create ChannelsmaskfoldernameLabel
-            app.ChannelsmaskfoldernameLabel = uilabel(app.GridLayout);
-            app.ChannelsmaskfoldernameLabel.Layout.Row = 6;
-            app.ChannelsmaskfoldernameLabel.Layout.Column = 1;
-            app.ChannelsmaskfoldernameLabel.Text = {'Channels & mask'; 'folder name'};
-
-            % Create ThunderSTORMfoldernameLabel
-            app.ThunderSTORMfoldernameLabel = uilabel(app.GridLayout);
-            app.ThunderSTORMfoldernameLabel.Layout.Row = 7;
-            app.ThunderSTORMfoldernameLabel.Layout.Column = 1;
-            app.ThunderSTORMfoldernameLabel.Text = {'ThunderSTORM '; 'folder name'};
-
-            % Create RunProDOLanalysisButton
-            app.RunProDOLanalysisButton = uibutton(app.GridLayout, 'push');
-            app.RunProDOLanalysisButton.ButtonPushedFcn = createCallbackFcn(app, @RunProDOLanalysisButtonPushed, true);
-            app.RunProDOLanalysisButton.Layout.Row = 8;
-            app.RunProDOLanalysisButton.Layout.Column = [1 6];
-            app.RunProDOLanalysisButton.Text = 'Run ProDOL analysis';
 
             % Create ProDOLanalysisLabel
             app.ProDOLanalysisLabel = uilabel(app.GridLayout);

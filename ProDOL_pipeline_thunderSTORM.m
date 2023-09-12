@@ -6,7 +6,6 @@
 % 'cell' is used as identifier, 'XX' is unique ID for each cell, '_' serves to indicate end of ID
 % - thunderSTORM results file obtained from processing of images in
 % 3ChannelsMask dir with ImageJ script 'processAverageIJwiththunderSTORM.ijm'
-%Code by F Hild, J Euchner, S Haenselmann & K Yserentant//
 
 InterfaceProDOL = singlecondition.ProDOL_Interface;
 
@@ -29,7 +28,6 @@ files = dir(rootfolder);
 dirFlags = [files.isdir];
 Folders = files(dirFlags);
 subFolders = Folders(3:end);
-addpath(genpath('general'))
 
 for m=1:length(subFolders)
     filesTemp=dir(append(subFolders(m).folder,'\',subFolders(m).name));
@@ -81,7 +79,9 @@ for m=1:length(subFolders)
     %%%%%%%%%%%%%%%%%%%%%
     
     % add DOL repository to paths
-    addpath(genpath(dolP));
+    if isdeployed()==0
+        addpath(genpath(dolP));
+    end
     
     % Create imagesets
     imSet = [];
@@ -96,7 +96,7 @@ for m=1:length(subFolders)
     sigmaFilterNames = strcat(setNames, ' fltr sigma');
     
     for i = 1:length(setNames)
-        sigmaRange = modeFilter(imSet,setNames{i},'sigma',0.5,true);
+        sigmaRange = modeFilter(imSet,setNames{i},'sigma',0.5,showIntermediate);
         imSet.filterPointsByValue(setNames{i}, sigmaFilterNames{i}, 'sigma', sigmaRange, 'append');
     end
     
@@ -114,11 +114,11 @@ for m=1:length(subFolders)
     
     %% Colocalization analysis & Density correction
     if strcmp(AnalysisOption,"Both Channels") | strcmp(AnalysisOption,"HaloTag")
-        imSet.colocalisation('ts_multi eGFP fltr sigma' , 'ts_multi Halo fltr sigma', saveDir)
+        imSet.colocalisation('ts_multi eGFP fltr sigma' , 'ts_multi Halo fltr sigma', saveDir, showIntermediate)
         imSet.densityCorrection('ts_multi eGFP fltr sigma', 'ts_multi Halo fltr sigma', 0.8618, -0.2359) % used low background correction functions!
     end
     if strcmp(AnalysisOption,"Both Channels") | strcmp(AnalysisOption,"SNAPtag")
-        imSet.colocalisation('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma', saveDir)
+        imSet.colocalisation('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma', saveDir, showIntermediate)
         imSet.densityCorrection('ts_multi eGFP fltr sigma', 'ts_multi SNAP fltr sigma', 0.8618, -0.2359) % used low background correction functions!
     end
     
@@ -134,7 +134,7 @@ for m=1:length(subFolders)
         writematrix(dols_SNAP, strcat(saveDir,'DOL_SNAP.txt'));
     end
 
-    figure()
+    f_dol=figure()
     hold on
     switch AnalysisOption
         case "Both Channels"
@@ -156,6 +156,7 @@ for m=1:length(subFolders)
     end
     ylim([0 1])
     ylabel('DOL corrected')
+    title(subFolders(m).name,'Interpreter','none')
 
     switch AnalysisOption
         case "Both Channels"
@@ -166,6 +167,9 @@ for m=1:length(subFolders)
             xticklabels({'',imSet.descriptors.dye_SNAP,''})
     end
     savefig(strcat(saveDir,'DOL.fig'));
+    if showDOL==0
+        close(f_dol);
+    end
 
 
     % amplitude histogram before and after sigma filtering
@@ -173,7 +177,7 @@ for m=1:length(subFolders)
     locs_nofilter = vertcat(ps_nofilter.points);
     ps_filtered = [allMCI.pointSetByName('ts_multi eGFP fltr sigma')];
     locs_filtered = vertcat(ps_filtered.points);
-    figure()
+    f_histo=figure();
     histogram(log(locs_nofilter(:,7)),[3:0.1:15],'Normalization','probability')
     hold on
     histogram(log(locs_filtered(:,7)),[3:0.1:15],'Normalization','probability')
@@ -182,7 +186,9 @@ for m=1:length(subFolders)
     ylabel('Probability')
     title('Localization amplitude before/after sigma filtering')
     savefig(strcat(saveDir,'LocAmplitude.fig'));
-
-    clearvars -except pixelsize fittype threshold dolP rootfolder subFolders expressionCh expressionTS dye_Halo dye_SNAP AnalysisOption
+    if showIntermediate==0
+        close(f_histo);
+    end
+    
+    clearvars -except pixelsize fittype threshold dolP showIntermediate showDOL rootfolder subFolders expressionCh expressionTS dye_Halo dye_SNAP AnalysisOption
 end
-

@@ -13,7 +13,7 @@
 %   use additional input 'plot' to create figure showing specific
 %   colocalisation (Coloc - ColocRandom) versus spatial thresholds
 
-function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds,saveDir, targetName, varargin)
+function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds,saveDir, targetName, showIntermediate, varargin)
 
     if ~isequal(size(Coloc), size(ColocRandom)) || ...
             ~isequal(size(Coloc,2),length(thresholds))
@@ -37,7 +37,7 @@ function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds
     
     % plot specific colocalisation
     if ~isempty(varargin) && strcmp(varargin{1}, 'plot')
-        figure()
+        f_coloc=figure();
         title(['Colocalisation Threshold ' inputname(1)])
         hold on
         Col = plot(thresholds,ColMeans2/max(ColMeans2)-ColMeans2Random/max(ColMeans2Random),'linewidth',3,'Color', [0 0.5 0]);
@@ -58,7 +58,8 @@ function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds
         else
              savefig(strcat(saveDir,'ColocThreshold_other.fig'));
         end
-
+        if showIntermediate==0
+            close(f_coloc);
+        end
     end
-
 end
