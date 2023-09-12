@@ -23,7 +23,6 @@ threshold = '2.0'; % thunderSTORM point detection parameters
 % Define paths
 %dolP = 'E:\software\DOL'; % DOL software directory
 
-%rootfolder = ("Z:\Stan\ST103_230302_DOL_NUP_CoPS_PBS\gSEP\");
 files = dir(rootfolder);
 dirFlags = [files.isdir];
 Folders = files(dirFlags);
@@ -37,9 +36,6 @@ for m=1:length(subFolders)
     subFolders2 = filesTemp(dirFlags2); % A structure with extra info.
     % Get only the folder names into a cell array.
     subFolderNames2 = {subFolders2(3:end).name}; % Start at 3 to skip . and ..
-    %expressionCh = '3Channels[_]?Mask';
-    %expressionTS = 'TS_results';
-    %expressionTS2= 'thunderSTORM';
     for n=1:length(subFolderNames2)
         matchStrCh = regexp(subFolderNames2(n),expressionCh,'match');
         matchStrTS = regexp(subFolderNames2(n),expressionTS,'match');
@@ -166,7 +162,12 @@ for m=1:length(subFolders)
         case "SNAPtag"
             xticklabels({'',imSet.descriptors.dye_SNAP,''})
     end
-    savefig(strcat(saveDir,'DOL.fig'));
+    if isdeployed()
+        saveas(f_dol,strcat(saveDir,'DOL.png'));
+    else
+        savefig(strcat(saveDir,'DOL.fig'));
+    end
+    
     if showDOL==0
         close(f_dol);
     end
@@ -185,7 +186,12 @@ for m=1:length(subFolders)
     xlabel('log(Amplitude) [a.u.]')
     ylabel('Probability')
     title('Localization amplitude before/after sigma filtering')
-    savefig(strcat(saveDir,'LocAmplitude.fig'));
+    if isdeployed()
+        saveas(f_histo,strcat(saveDir,'LocAmplitude.png'));
+    else
+        savefig(strcat(saveDir,'LocAmplitude.fig'));
+    end
+    
     if showIntermediate==0
         close(f_histo);
     end

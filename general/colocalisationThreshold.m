@@ -52,11 +52,23 @@ function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds
             'Color',[0 0.5 0],'BackgroundColor', 'white','HorizontalAlignment', 'center',...
             'FontSize',10);
         if contains(targetName,"Halo")
-             savefig(strcat(saveDir,'ColocThreshold_Halo.fig'));
+            if isdeployed()
+                saveas(f_coloc,strcat(saveDir,'ColocThreshold_Halo.png'));
+            else
+                savefig(strcat(saveDir,'ColocThreshold_Halo.fig'));
+            end
         elseif contains(targetName,"SNAP")
-            savefig(strcat(saveDir,'ColocThreshold_SNAP.fig'));
+            if isdeployed()
+                saveas(f_coloc,strcat(saveDir,'ColocThreshold_SNAP.png'));
+            else
+                savefig(strcat(saveDir,'ColocThreshold_SNAP.fig'));
+            end
         else
-             savefig(strcat(saveDir,'ColocThreshold_other.fig'));
+        	if isdeployed()
+                saveas(f_coloc,strcat(saveDir,'ColocThreshold_other.png'));
+            else
+                savefig(strcat(saveDir,'ColocThreshold_other.fig'));
+            end   
         end
         if showIntermediate==0
             close(f_coloc);
