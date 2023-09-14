@@ -1,7 +1,4 @@
-
-# ProDOL
-=======
-# object oriented dol analysis software
+# Protein-tag Degree Of Labelling (ProDOL) analysis software
 
 **Organization:** Herten Lab for Single Molecule Spectroscopy, University of Birmingham, UK  
 **License:** GPLv3  
