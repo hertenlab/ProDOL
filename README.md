@@ -338,5 +338,3 @@ showImage(myImage, {'SNAP', 'eGFP', 'mask'}, {'ts_multi SNAP fltr sigma, 'ts_mul
 ```
 
 displays the SNAPtag and eGFP image channel, the outline from the segmentation mask and overlays points from pointset 'ts_multi SNAP fltr sigma' and 'ts_multi eGFP fltr sigma'.
-
->>>>>>> 24b7447 (Update README.md)
