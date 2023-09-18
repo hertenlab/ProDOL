@@ -34,7 +34,7 @@ Although the package was tested with specific versions, other relatively new ver
 
 ## Installation
 
-The recommended way to use this software is cloning / downloading the git repository.
+The recommended way to use this software is cloning / downloading the git repository. If Matlab, ImageJ and all dependencies within the two softwares is already installed, no further installation is necessary. Installation of ImageJ, Matlab and all dependencies can take minutes to tens of minutes depending on the hardware. The standalone application for the Matlab routine takes minutes to install.
 
 ## Getting started
 ### ImageJ script
@@ -92,6 +92,10 @@ The MATLAB routine generates one output folder with following files:
 - `DOL.fig` showing the results-plot of the determined DOL
 - `DOL_Tag.txt` is a list of per `cell` DOL
 - `LocAmplitude.fig` compares the distribution of points before and after filtering
+
+### Runtime 
+- ImageJ/thunderSTORM: <1 min per imageset. Resulting in minutes to hours of runtime for thunderSTORM "multi-emitter fitting" on multicondition datasets.
+- MATLAB: tens of seconds per condition. Resulting in minutes to tens of minutes of runtime on multi-condition datasets.
 
 ## classes
 
