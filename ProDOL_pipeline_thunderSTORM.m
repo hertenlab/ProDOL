@@ -82,7 +82,9 @@ for m=1:length(subFolders)
     % Create imagesets
     imSet = [];
     imSet = singlecondition.createImageSet(imSet,imgDir,pixelsize,channels,isProperties);
-    
+    if ~exist("gT","var")
+        gT=[];
+    end
     % Import thunderSTORM results
     [~] = singlecondition.importThunderSTORM(imSet,tsDir,struct('rep','','chan',''));
     
@@ -110,11 +112,11 @@ for m=1:length(subFolders)
     
     %% Colocalization analysis & Density correction
     if strcmp(AnalysisOption,"Both Channels") | strcmp(AnalysisOption,"HaloTag")
-        imSet.colocalisation('ts_multi eGFP fltr sigma' , 'ts_multi Halo fltr sigma', saveDir, showIntermediate)
+        imSet.colocalisation('ts_multi eGFP fltr sigma' , 'ts_multi Halo fltr sigma', saveDir, showIntermediate,gT)
         imSet.densityCorrection('ts_multi eGFP fltr sigma', 'ts_multi Halo fltr sigma', 0.8618, -0.2359) % used low background correction functions!
     end
     if strcmp(AnalysisOption,"Both Channels") | strcmp(AnalysisOption,"SNAPtag")
-        imSet.colocalisation('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma', saveDir, showIntermediate)
+        imSet.colocalisation('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma', saveDir, showIntermediate,gT)
         imSet.densityCorrection('ts_multi eGFP fltr sigma', 'ts_multi SNAP fltr sigma', 0.8618, -0.2359) % used low background correction functions!
     end
     
@@ -198,3 +200,4 @@ for m=1:length(subFolders)
     
     clearvars -except pixelsize fittype threshold dolP showIntermediate showDOL rootfolder subFolders expressionCh expressionTS dye_Halo dye_SNAP AnalysisOption
 end
+clearvars

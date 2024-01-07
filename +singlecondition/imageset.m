@@ -224,13 +224,13 @@ classdef imageset < matlab.mixin.Copyable
         end
         
         % Complete colocalisation procedure for all images in this imageset
-        function colocalisation(obj, baseName, targetName, saveDir, showIntermediate)
+        function colocalisation(obj, baseName, targetName, saveDir, showIntermediate,gT)
             
             fprintf('## Calculating colocalisation ##\n''%s'' <-> ''%s''\n', baseName, targetName);
             obj.calculateColocOverThresholds(baseName, targetName)
             
             disp('# Calculating significant colocalisation distance threshold #');
-            obj.findSignificantThreshold(baseName, targetName,saveDir, showIntermediate);
+            obj.findSignificantThreshold(baseName, targetName,saveDir, showIntermediate,gT);
             disp('# Extract colocalisation at distance threshold #');
             obj.setSignificantDOL(baseName, targetName);
             
@@ -241,7 +241,10 @@ classdef imageset < matlab.mixin.Copyable
             obj.calculateMeanColocalisation('include', targetName, baseName);
             obj.calculateMeanColocalisation('exclude', baseName, targetName);
             obj.calculateMeanColocalisation('exclude', targetName, baseName);
-            
+                        
+            if exist("gT","var")
+                assignin('caller', 'gT', gT);
+            end
         end
         
         % Calculate degree of colocalisations on all images in this
@@ -272,7 +275,7 @@ classdef imageset < matlab.mixin.Copyable
         % Calculate significant colocalisation distance threshold by
         % comparing degree of colocalisation with random control in
         % dependence of the distance threshold
-        function findSignificantThreshold(obj, baseName, targetName, saveDir, showIntermediate)
+        function findSignificantThreshold(obj, baseName, targetName, saveDir, showIntermediate,gT)
             % calculate mean DOL all input imageset
             % determine significant distance threshold
             allImages = [obj.childImages];
@@ -306,7 +309,7 @@ classdef imageset < matlab.mixin.Copyable
             
             thresholds = dolDolan.parameter;
             
-            distanceThreshold = colocalisationThreshold(dolValues, randomValues, thresholds,saveDir,targetName,showIntermediate, 'plot');
+            distanceThreshold = colocalisationThreshold(dolValues, randomValues, thresholds,saveDir,targetName,showIntermediate,gT, 'plot');
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %distanceThreshold = 3.0;
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%            
@@ -314,6 +317,9 @@ classdef imageset < matlab.mixin.Copyable
             colocDolan = singlecondition.dolan(baseName, targetName, 'colocThreshold', distanceThreshold, [], '');
             obj.addColocThreshold(colocDolan);
             fprintf('\tcolocThreshold = %1.1f\n', distanceThreshold);
+            if exist("gT","var")
+                assignin('caller', 'gT', gT);
+            end
         end
         
         function setSignificantDOL(obj, baseName, targetName)
