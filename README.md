@@ -269,7 +269,7 @@ That consecutively performs the following steps:
 imSet.calculateColocOverThresholds('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma');
 ```
 
-* Calculate the degree of colocalisation between two pointsets over a distance threshold from 0.1 to 4 pixels with a step size of 0.1 px. Additionally multiple assigned points are stored and both (DOL and multi-assignments) are performed for one pointset rotated (Random). Results are stored as dolan objects with the respective multichannelimage. (varNames: 'DOL over threshold',  'multi-assignments over threshold', 'DOL-Random over threshold', 'multi-assignments-Random over threshold')
+* Calculate the degree of colocalisation between two pointsets over a distance threshold from 0.1 to 6 pixels with a step size of 0.1 px. Additionally multiple assigned points are stored and both (DOL and multi-assignments) are performed for one pointset rotated (Random). Results are stored as dolan objects with the respective multichannelimage. (varNames: 'DOL over threshold',  'multi-assignments over threshold', 'DOL-Random over threshold', 'multi-assignments-Random over threshold')
 
 ```
 obj.findSignificantThreshold('ts_multi eGFP fltr sigma' , 'ts_multi SNAP fltr sigma');
