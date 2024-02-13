@@ -174,7 +174,7 @@ dataSetInspector(imgset)
 * By ticking the checkbox 'unset only' images that have a classification are skipped. This will help if you resume an interrupted classification in random order
 * If you encounter an error and the figure window cannot be closed focus the window and type `delete(gcf)` in the console
 
-## Transformation (formerly known as registration)
+## Registration
 
 Select a point set as a reference and align other pointsets to that reference. A full registration from all pointsets with name `targetName` to `baseName` can be performed by calling
 
