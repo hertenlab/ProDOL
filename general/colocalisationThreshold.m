@@ -40,7 +40,7 @@ function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds
 
             [~,index] = max(ColMeans2/max(ColMeans2Random)-meanColRandom/max(ColMeans2Random));
             finalThreshold = thresholds(index);
-            if exist("gT", "var")
+            if gT>0
                 T=round(mean(gT));
                 [~,index] = max(ColMeans2(1:T+5)/max(ColMeans2)-ColMeans2Random(1:T+5)/max(ColMeans2Random));
                 finalThreshold = thresholds(index);
