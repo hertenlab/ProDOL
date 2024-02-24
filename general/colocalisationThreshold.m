@@ -43,7 +43,7 @@ function finalThreshold = colocalisationThreshold(Coloc, ColocRandom, thresholds
     
     cutOff=meanCol/max(meanCol)-meanColRandom/max(meanColRandom);
     
-    if SNR<5 && mean(gT)>0 && mean(gT)+10<length(cutOff)
+    if SNR<5 && mean(gT)>0 && mean(gT)+11<length(cutOff)
         T=round(mean(gT));
         cutOff=cutOff(1:T+10);
     end
